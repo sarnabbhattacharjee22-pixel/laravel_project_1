@@ -2,203 +2,206 @@
 
 @section('backend_content')
 
+
+<!--
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Profile Settings</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
-    body {
-      color: #111827;
-      display: flex;
-      justify-content: center;
-      padding: 40px 20px;
-    }
-
-    .admin-form-container {
-      width: 100%;
-      max-width: 600px;
-      margin: 0 auto;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .cover-wrapper {
-      position: relative;
-      height: 160px;
-      border-bottom: 1px solid #d1d5db;
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .cover-placeholder {
-      color: #6b7280;
-      font-size: 0.9rem;
-    }
-
-    .cover-upload-btn {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      background: #ffffff;
-      color: #111827;
-      border: 1px solid #d1d5db;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      cursor: pointer;
-    }
-
-    .cover-upload-btn:hover {
-      border-color: #111827;
-    }
-
-    #cover-input {
-      display: none;
-    }
-
-    .form-body {
-      padding: 24px;
-    }
-
-    .form-header {
-      margin-bottom: 20px;
-    }
-
-    .form-header h2 {
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-
-    .form-header p {
-      color: #6b7280;
-      font-size: 0.875rem;
-      margin-top: 4px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .form-group.full-width {
-      grid-column: span 2;
-    }
-
-    label {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #374151;
-    }
-
-    .input-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    input {
-      width: 100%;
-      background: transparent;
-      border: 1px solid #d1d5db;
-      color: #111827;
-      padding: 10px 12px;
-      border-radius: 6px;
-      font-size: 0.95rem;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #111827;
-    }
-
-    .username-prefix {
-      position: absolute;
-      left: 12px;
-      color: #6b7280;
-      font-size: 0.95rem;
-      pointer-events: none;
-    }
-
-    input.has-prefix {
-      padding-left: 28px;
-    }
-
-    .toggle-password {
-      position: absolute;
-      right: 10px;
-      background: transparent;
-      border: none;
-      color: #6b7280;
-      cursor: pointer;
-      font-size: 0.8rem;
-    }
-
-    .toggle-password:hover {
-      color: #111827;
-    }
-
-    .form-actions {
-      margin-top: 24px;
-      padding-top: 16px;
-      border-top: 1px solid #d1d5db;
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .btn {
-      padding: 9px 18px;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      background: transparent;
-      border: 1px solid #d1d5db;
-      color: #111827;
-    }
-
-    .btn:hover {
-      border-color: #111827;
-    }
-
-    .btn-primary {
-      border-color: #111827;
-      font-weight: 600;
-    }
-
-    @media (max-width: 600px) {
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile Settings</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+      
+      body {
+        color: #111827;
+        display: flex;
+        justify-content: center;
+        padding: 40px 20px;
+      }
+      
+      .admin-form-container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      
+      .cover-wrapper {
+        position: relative;
+        height: 160px;
+        border-bottom: 1px solid #d1d5db;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .cover-placeholder {
+        color: #6b7280;
+        font-size: 0.9rem;
+      }
+      
+      .cover-upload-btn {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        background: #ffffff;
+        color: #111827;
+        border: 1px solid #d1d5db;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        cursor: pointer;
+      }
+      
+      .cover-upload-btn:hover {
+        border-color: #111827;
+      }
+      
+      #cover-input {
+        display: none;
+      }
+      
+      .form-body {
+        padding: 24px;
+      }
+      
+      .form-header {
+        margin-bottom: 20px;
+      }
+      
+      .form-header h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+      
+      .form-header p {
+        color: #6b7280;
+        font-size: 0.875rem;
+        margin-top: 4px;
+      }
+      
       .form-grid {
-        grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
       }
-
+      
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      
       .form-group.full-width {
-        grid-column: span 1;
+        grid-column: span 2;
       }
-    }
-  </style>
+      
+      label {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #374151;
+      }
+      
+      .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      
+      input {
+        width: 100%;
+        background: transparent;
+        border: 1px solid #d1d5db;
+        color: #111827;
+        padding: 10px 12px;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        outline: none;
+      }
+      
+      input:focus {
+        border-color: #111827;
+      }
+      
+      .username-prefix {
+        position: absolute;
+        left: 12px;
+        color: #6b7280;
+        font-size: 0.95rem;
+        pointer-events: none;
+      }
+      
+      input.has-prefix {
+        padding-left: 28px;
+      }
+      
+      .toggle-password {
+        position: absolute;
+        right: 10px;
+        background: transparent;
+        border: none;
+        color: #6b7280;
+        cursor: pointer;
+        font-size: 0.8rem;
+      }
+      
+      .toggle-password:hover {
+        color: #111827;
+      }
+      
+      .form-actions {
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid #d1d5db;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+      
+      .btn {
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        background: transparent;
+        border: 1px solid #d1d5db;
+        color: #111827;
+      }
+      
+      .btn:hover {
+        border-color: #111827;
+      }
+      
+      .btn-primary {
+        border-color: #111827;
+        font-weight: 600;
+      }
+      
+      @media (max-width: 600px) {
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .form-group.full-width {
+          grid-column: span 1;
+        }
+      }
+      </style>
 </head>
 <body>
-
+  
   <div class="admin-form-container">
     <form id="admin-update-form" action="/update-admin" method="POST" enctype="multipart/form-data">
       
@@ -207,19 +210,19 @@
         <label for="cover-input" class="cover-upload-btn">Upload Cover</label>
         <input type="file" id="cover-input" name="cover_photo" accept="image/*">
       </div>
-
+      
       <div class="form-body">
         <div class="form-header">
           <h2>Admin Profile</h2>
           <p>Update your account details and cover photo.</p>
         </div>
-
+        
         <div class="form-grid">
           <div class="form-group">
             <label for="full-name">Name</label>
             <input type="text" id="full-name" name="name" placeholder="Full name" required>
           </div>
-
+          
           <div class="form-group">
             <label for="username">Username</label>
             <div class="input-wrapper">
@@ -227,12 +230,12 @@
               <input type="text" id="username" name="username" class="has-prefix" placeholder="username" required>
             </div>
           </div>
-
+          
           <div class="form-group full-width">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="admin@example.com" required>
           </div>
-
+          
           <div class="form-group full-width">
             <label for="password">Password</label>
             <div class="input-wrapper">
@@ -241,16 +244,16 @@
             </div>
           </div>
         </div>
-
+        
         <div class="form-actions">
           <button type="reset" class="btn" id="reset-btn">Cancel</button>
           <button type="submit" class="btn btn-primary">Save Changes</button>
         </div>
       </div>
-
+      
     </form>
   </div>
-
+  
   <script>
     const coverInput = document.getElementById('cover-input');
     const coverPreview = document.getElementById('cover-preview');
@@ -285,5 +288,61 @@
 
 </body>
 </html>
+-->
 
+
+
+
+
+
+<div class="controller my-3 bg-white shadow p-3 rounded">
+  <div class="row">
+    <div class="col-lg-8">
+      <h4>Profile Details</h4>
+    </div>
+    <div class="col-lg-4">
+      <div class="card"> 
+<div class="card-header px-3">
+<h4>Password Update</h4>
+</div>
+        <div class="card-body">
+          <form action="{{ route('admin.profile.update.own') }}" method="POST">
+            
+            @csrf
+            <label for="previous_password">Previous Password</label>
+            <input type="password" name="previous_password" class="form-control mb-2" name="previous_password" placeholder="Enter Previous Password">
+@error('previous_password')
+<div class="text-danger">{{ $message }}</div>
+@enderror
+            
+<label for="new_password">New Password</label>
+<input type="password" name="new_password" class="form-control mb-2" name="new_password" placeholder="Enter New Password">
+@error('new_password')
+<div class="text-danger">{{ $message }}</div>
+@enderror
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" name="confirm_password" class="form-control mb-2" name="confirm_password" placeholder="Confirm New Password">
+
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+@push('backend_scripts')
+  <script>
+    @if(session()->has('success'))
+    Swal.fire({
+      title: 'Success!',
+      text: 'Your password has been updated successfully.',
+      icon: 'success',
+      confirmButtonText: 'OK'
+    });
+  </script>
+  @endif
+@endpush
 @endsection

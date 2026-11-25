@@ -13,10 +13,18 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [BackendProfileController::class, 'edit'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+    });
+    
+    
+    // Backend Routes
+    Route::prefix('/admin/')->name('admin.')->group(function () {
+        //* PROFILE UPDATE */
+        Route::get('/profile', [BackendProfileController::class, 'edit'])->name('profile.index');
+        Route::post('/profile', [BackendProfileController::class, 'update'])->name('profile.update.own');
+    });
+
 
 require __DIR__.'/auth.php';

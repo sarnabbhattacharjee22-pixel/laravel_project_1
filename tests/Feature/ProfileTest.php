@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 test('profile page is displayed', function () {
     $user = User::factory()->create();
@@ -10,6 +11,57 @@ test('profile page is displayed', function () {
         ->get('/profile/edit');
 
     $response->assertOk();
+});
+
+test('backend profile page renders its profile navigation link', function () {
+    $user = User::factory()->create();
+
+    $response = $this
+        ->actingAs($user)
+        ->get('/admin/profile');
+
+    $response
+        ->assertOk()
+        ->assertSee(route('admin.profile.index'))
+        ->assertSee('Swal.fire', false)
+        ->assertSeeText('Your password has been updated successfully.');
+});
+
+test('backend profile form submits to its post update route', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get('/admin/profile')
+        ->assertOk()
+        ->assertSee(
+            'action="'.route('admin.profile.update.own').'" method="POST"',
+            false
+        );
+
+    $this->post(route('admin.profile.update.own'), [
+        'previous_password' => 'incorrect-password',
+        'new_password' => 'new-password',
+        'confirm_password' => 'new-password',
+    ])
+        ->assertOk()
+        ->assertSeeText('update data');
+
+    $this->assertTrue(Hash::check('password', $user->fresh()->password));
+});
+
+test('backend profile update returns ok after changing the password', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->post(route('admin.profile.update.own'), [
+            'previous_password' => 'password',
+            'new_password' => 'new-password',
+            'confirm_password' => 'new-password',
+        ])
+        ->assertOk()
+        ->assertSeeText('ok');
+
+    $this->assertTrue(Hash::check('new-password', $user->fresh()->password));
 });
 
 test('backend profile page requires authentication', function () {
