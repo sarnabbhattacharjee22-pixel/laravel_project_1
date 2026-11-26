@@ -16,15 +16,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    });
-    
-    
-    // Backend Routes
-    Route::prefix('/admin/')->name('admin.')->group(function () {
-        //* PROFILE UPDATE */
-        Route::get('/profile', [BackendProfileController::class, 'edit'])->name('profile.index');
-        Route::post('/profile', [BackendProfileController::class, 'update'])->name('profile.update.own');
-    });
+});
 
+Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
+    Route::get('/profile', [BackendProfileController::class, 'edit'])->name('profile.index');
+    Route::post('/profile', [BackendProfileController::class, 'update'])->name('profile.update.own');
+    Route::post('/info', [BackendProfileController::class, 'user_info_update'])->name('profile.update.info');
+});
 
 require __DIR__.'/auth.php';

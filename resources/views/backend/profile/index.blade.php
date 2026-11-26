@@ -1,348 +1,287 @@
 @extends('backend.layout')
 
 @section('backend_content')
-
-
-<!--
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Profile Settings</title>
-    <style>
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      }
-      
-      body {
-        color: #111827;
+<style>
+    .admin-profile .profile-cover {
+        position: relative;
         display: flex;
+        min-height: 180px;
+        align-items: center;
         justify-content: center;
-        padding: 40px 20px;
-      }
-      
-      .admin-form-container {
-        width: 100%;
-        max-width: 600px;
-        margin: 0 auto;
-        border: 1px solid #d1d5db;
-        border-radius: 8px;
         overflow: hidden;
-      }
-      
-      .cover-wrapper {
-        position: relative;
-        height: 160px;
-        border-bottom: 1px solid #d1d5db;
-        background-size: cover;
+        border-bottom: 1px solid #d9dee3;
+        background-color: #f5f5f9;
         background-position: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      
-      .cover-placeholder {
-        color: #6b7280;
-        font-size: 0.9rem;
-      }
-      
-      .cover-upload-btn {
+        background-size: cover;
+    }
+
+    .admin-profile .profile-cover-placeholder {
+        color: #697a8d;
+    }
+
+    .admin-profile .profile-cover-upload {
         position: absolute;
-        bottom: 12px;
-        right: 12px;
-        background: #ffffff;
-        color: #111827;
-        border: 1px solid #d1d5db;
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        cursor: pointer;
-      }
-      
-      .cover-upload-btn:hover {
-        border-color: #111827;
-      }
-      
-      #cover-input {
-        display: none;
-      }
-      
-      .form-body {
-        padding: 24px;
-      }
-      
-      .form-header {
-        margin-bottom: 20px;
-      }
-      
-      .form-header h2 {
-        font-size: 1.25rem;
-        font-weight: 600;
-      }
-      
-      .form-header p {
-        color: #6b7280;
-        font-size: 0.875rem;
-        margin-top: 4px;
-      }
-      
-      .form-grid {
+        right: 1rem;
+        bottom: 1rem;
+    }
+
+    .admin-profile .profile-cover-input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        clip-path: inset(50%);
+    }
+
+    .admin-profile .profile-cover-input:focus + .profile-cover-upload {
+        outline: 2px solid #696cff;
+        outline-offset: 2px;
+    }
+
+    .admin-profile .profile-form-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-      }
-      
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      
-      .form-group.full-width {
-        grid-column: span 2;
-      }
-      
-      label {
-        font-size: 0.85rem;
-        font-weight: 500;
-        color: #374151;
-      }
-      
-      .input-wrapper {
-        position: relative;
-        display: flex;
-        align-items: center;
-      }
-      
-      input {
-        width: 100%;
-        background: transparent;
-        border: 1px solid #d1d5db;
-        color: #111827;
-        padding: 10px 12px;
-        border-radius: 6px;
-        font-size: 0.95rem;
-        outline: none;
-      }
-      
-      input:focus {
-        border-color: #111827;
-      }
-      
-      .username-prefix {
-        position: absolute;
-        left: 12px;
-        color: #6b7280;
-        font-size: 0.95rem;
-        pointer-events: none;
-      }
-      
-      input.has-prefix {
-        padding-left: 28px;
-      }
-      
-      .toggle-password {
-        position: absolute;
-        right: 10px;
-        background: transparent;
-        border: none;
-        color: #6b7280;
-        cursor: pointer;
-        font-size: 0.8rem;
-      }
-      
-      .toggle-password:hover {
-        color: #111827;
-      }
-      
-      .form-actions {
-        margin-top: 24px;
-        padding-top: 16px;
-        border-top: 1px solid #d1d5db;
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-      }
-      
-      .btn {
-        padding: 9px 18px;
-        border-radius: 6px;
-        font-size: 0.9rem;
-        font-weight: 500;
-        cursor: pointer;
-        background: transparent;
-        border: 1px solid #d1d5db;
-        color: #111827;
-      }
-      
-      .btn:hover {
-        border-color: #111827;
-      }
-      
-      .btn-primary {
-        border-color: #111827;
-        font-weight: 600;
-      }
-      
-      @media (max-width: 600px) {
-        .form-grid {
-          grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+    }
+
+    .admin-profile .profile-form-full {
+        grid-column: 1 / -1;
+    }
+
+    @media (max-width: 767.98px) {
+        .admin-profile .profile-form-grid {
+            grid-template-columns: 1fr;
         }
-        
-        .form-group.full-width {
-          grid-column: span 1;
+
+        .admin-profile .profile-form-full {
+            grid-column: auto;
         }
-      }
-      </style>
-</head>
-<body>
-  
-  <div class="admin-form-container">
-    <form id="admin-update-form" action="/update-admin" method="POST" enctype="multipart/form-data">
-      
-      <div class="cover-wrapper" id="cover-preview">
-        <span class="cover-placeholder" id="cover-text">No cover photo selected</span>
-        <label for="cover-input" class="cover-upload-btn">Upload Cover</label>
-        <input type="file" id="cover-input" name="cover_photo" accept="image/*">
-      </div>
-      
-      <div class="form-body">
-        <div class="form-header">
-          <h2>Admin Profile</h2>
-          <p>Update your account details and cover photo.</p>
-        </div>
-        
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="full-name">Name</label>
-            <input type="text" id="full-name" name="name" placeholder="Full name" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="username">Username</label>
-            <div class="input-wrapper">
-              <span class="username-prefix">@</span>
-              <input type="text" id="username" name="username" class="has-prefix" placeholder="username" required>
-            </div>
-          </div>
-          
-          <div class="form-group full-width">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="admin@example.com" required>
-          </div>
-          
-          <div class="form-group full-width">
-            <label for="password">Password</label>
-            <div class="input-wrapper">
-              <input type="password" id="password" name="password" placeholder="New password">
-              <button type="button" class="toggle-password" id="toggle-pwd">Show</button>
-            </div>
-          </div>
-        </div>
-        
-        <div class="form-actions">
-          <button type="reset" class="btn" id="reset-btn">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save Changes</button>
-        </div>
-      </div>
-      
-    </form>
-  </div>
-  
-  <script>
-    const coverInput = document.getElementById('cover-input');
-    const coverPreview = document.getElementById('cover-preview');
-    const coverText = document.getElementById('cover-text');
-    const resetBtn = document.getElementById('reset-btn');
-    const passwordInput = document.getElementById('password');
-    const togglePwdBtn = document.getElementById('toggle-pwd');
+    }
+</style>
 
-    coverInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          coverPreview.style.backgroundImage = `url('${event.target.result}')`;
-          coverText.style.display = 'none';
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    resetBtn.addEventListener('click', () => {
-      coverPreview.style.backgroundImage = '';
-      coverText.style.display = 'block';
-    });
-
-    togglePwdBtn.addEventListener('click', () => {
-      const isPassword = passwordInput.type === 'password';
-      passwordInput.type = isPassword ? 'text' : 'password';
-      togglePwdBtn.textContent = isPassword ? 'Hide' : 'Show';
-    });
-  </script>
-
-</body>
-</html>
--->
-
-
-
-
-
-
-<div class="controller my-3 bg-white shadow p-3 rounded">
-  <div class="row">
-    <div class="col-lg-8">
-      <h4>Profile Details</h4>
-    </div>
-    <div class="col-lg-4">
-      <div class="card"> 
-<div class="card-header px-3">
-<h4>Password Update</h4>
-</div>
-        <div class="card-body">
-          <form action="{{ route('admin.profile.update.own') }}" method="POST">
-            
-            @csrf
-            <label for="previous_password">Previous Password</label>
-            <input type="password" name="previous_password" class="form-control mb-2" name="previous_password" placeholder="Enter Previous Password">
-@error('previous_password')
-<div class="text-danger">{{ $message }}</div>
-@enderror
-            
-<label for="new_password">New Password</label>
-<input type="password" name="new_password" class="form-control mb-2" name="new_password" placeholder="Enter New Password">
-@error('new_password')
-<div class="text-danger">{{ $message }}</div>
-@enderror
-            <label for="confirm_password">Confirm Password</label>
-            <input type="password" name="confirm_password" class="form-control mb-2" name="confirm_password" placeholder="Confirm New Password">
-
-            <button type="submit" class="btn btn-primary w-100">Submit</button>
-          </form>
-        </div>
-      </div>
+<div class="admin-profile py-4">
+    <div class="mb-4">
+        <h4 class="mb-1">Profile settings</h4>
+        <p class="mb-0 text-muted">Manage your profile details and password.</p>
     </div>
 
+    <div class="row g-4">
+        <section class="col-12 col-xl-8" aria-labelledby="profile-details-heading">
+            <div class="card">
+                <form
+                    id="admin-update-form"
+                    action="{{ route('admin.profile.update.info') }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+                    @csrf
 
+                    <div
+                        class="profile-cover"
+                        id="cover-preview"
+                        @if ($user->image)
+                            style="background-image: url('{{ asset('storage/'.$user->image) }}')"
+                        @endif
+                    >
+                        <span class="profile-cover-placeholder @if ($user->image) d-none @endif" id="cover-text">
+                            No cover photo selected
+                        </span>
+                        <input
+                            class="profile-cover-input"
+                            type="file"
+                            id="cover-input"
+                            name="cover_photo"
+                            accept="image/jpeg,image/png,image/webp"
+                        >
+                        <label for="cover-input" class="profile-cover-upload btn btn-light shadow-sm">
+                            Upload cover
+                        </label>
+                    </div>
+                    @error('cover_photo')
+                        <div class="px-3 pt-2 text-danger">{{ $message }}</div>
+                    @enderror
 
-  </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <h5 class="mb-1" id="profile-details-heading">Profile details</h5>
+                            <p class="mb-0 text-muted">Update your account information and cover photo.</p>
+                        </div>
+
+                        <div class="profile-form-grid">
+                            <div>
+                                <label for="full-name" class="form-label">Name</label>
+                                <input
+                                    type="text"
+                                    id="full-name"
+                                    name="name"
+                                    class="form-control @error('name') is-invalid @enderror"
+                                    value="{{ old('name', $user->name) }}"
+                                    placeholder="Full name"
+                                    autocomplete="name"
+                                    required
+                                >
+                                @error('name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="username" class="form-label">Username</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" aria-hidden="true">@</span>
+                                    <input
+                                        type="text"
+                                        id="username"
+                                        name="username"
+                                        class="form-control @error('username') is-invalid @enderror"
+                                        value="{{ old('username', $user->username) }}"
+                                        placeholder="username"
+                                        autocomplete="username"
+                                        required
+                                    >
+                                    @error('username')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="profile-form-full">
+                                <label for="bio" class="form-label">Bio</label>
+                                <textarea
+                                    id="bio"
+                                    name="bio"
+                                    class="form-control @error('bio') is-invalid @enderror"
+                                    rows="4"
+                                    placeholder="Write a short bio about yourself..."
+                                >{{ old('bio', $user->bio) }}</textarea>
+                                @error('bio')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer d-flex justify-content-end gap-2">
+                        <button type="reset" class="btn btn-outline-secondary" id="reset-btn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="col-12 col-xl-4" aria-labelledby="password-update-heading">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0" id="password-update-heading">Password update</h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('admin.profile.update.own') }}" method="POST">
+                        @csrf
+
+                        <div class="mb-3">
+                            <label for="previous-password" class="form-label">Previous password</label>
+                            <input
+                                type="password"
+                                id="previous-password"
+                                name="previous_password"
+                                class="form-control @error('previous_password') is-invalid @enderror"
+                                placeholder="Enter previous password"
+                                autocomplete="current-password"
+                                required
+                            >
+                            @error('previous_password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="new-password" class="form-label">New password</label>
+                            <input
+                                type="password"
+                                id="new-password"
+                                name="new_password"
+                                class="form-control @error('new_password') is-invalid @enderror"
+                                placeholder="Enter new password"
+                                autocomplete="new-password"
+                                required
+                            >
+                            @error('new_password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="confirm-password" class="form-label">Confirm new password</label>
+                            <input
+                                type="password"
+                                id="confirm-password"
+                                name="confirm_password"
+                                class="form-control"
+                                placeholder="Confirm new password"
+                                autocomplete="new-password"
+                                required
+                            >
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Update password</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
 </div>
-@push('backend_scripts')
-  <script>
-    @if(session()->has('success'))
-    Swal.fire({
-      title: 'Success!',
-      text: 'Your password has been updated successfully.',
-      icon: 'success',
-      confirmButtonText: 'OK'
-    });
-  </script>
-  @endif
-@endpush
 @endsection
+
+@push('backend_scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('admin-update-form');
+            const coverInput = document.getElementById('cover-input');
+            const coverPreview = document.getElementById('cover-preview');
+            const coverText = document.getElementById('cover-text');
+
+            if (!form || !coverInput || !coverPreview || !coverText) {
+                return;
+            }
+
+            let previewUrl = null;
+
+            coverInput.addEventListener('change', () => {
+                const file = coverInput.files?.[0];
+
+                if (!file) {
+                    return;
+                }
+
+                if (previewUrl) {
+                    URL.revokeObjectURL(previewUrl);
+                }
+
+                previewUrl = URL.createObjectURL(file);
+                coverPreview.style.backgroundImage = `url("${previewUrl}")`;
+                coverText.classList.add('d-none');
+            });
+
+            form.addEventListener('reset', () => {
+                if (previewUrl) {
+                    URL.revokeObjectURL(previewUrl);
+                    previewUrl = null;
+                }
+
+                coverPreview.style.backgroundImage = '';
+                coverText.classList.remove('d-none');
+            });
+        });
+
+        @if (session()->has('success'))
+            Swal.fire({
+                title: 'Success!',
+                text: @json(session('success')),
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        @endif
+    </script>
+@endpush

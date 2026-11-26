@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 test('profile page is displayed', function () {
     $user = User::factory()->create();
@@ -23,8 +25,8 @@ test('backend profile page renders its profile navigation link', function () {
     $response
         ->assertOk()
         ->assertSee(route('admin.profile.index'))
-        ->assertSee('Swal.fire', false)
-        ->assertSeeText('Your password has been updated successfully.');
+        ->assertSeeText('Profile details')
+        ->assertSee('action="'.route('admin.profile.update.info').'"', false);
 });
 
 test('backend profile form submits to its post update route', function () {
@@ -144,4 +146,78 @@ test('correct password must be provided to delete account', function () {
         ->assertRedirect('/profile/edit');
 
     $this->assertNotNull($user->fresh());
+});
+
+test('authenticated users can save their profile details and cover photo', function () {
+    Storage::fake('public');
+
+    $user = User::factory()->create([
+        'username' => 'existing-handle',
+    ]);
+
+    $response = $this
+        ->actingAs($user)
+        ->from(route('admin.profile.index'))
+        ->post(route('admin.profile.update.info'), [
+            'name' => 'Updated Name',
+            'username' => 'existing-handle',
+            'bio' => 'Updated profile biography.',
+            'cover_photo' => UploadedFile::fake()->image('cover.jpg'),
+        ]);
+
+    $response
+        ->assertRedirect(route('admin.profile.index'))
+        ->assertSessionHas('success', 'Your profile information has been updated successfully.');
+
+    $updatedUser = $user->fresh();
+
+    $this->assertDatabaseHas('users', [
+        'id' => $user->id,
+        'name' => 'Updated Name',
+        'username' => 'existing-handle',
+        'bio' => 'Updated profile biography.',
+        'image' => $updatedUser->image,
+    ]);
+
+    Storage::disk('public')->assertExists($updatedUser->image);
+
+    $this->actingAs($updatedUser)
+        ->get(route('admin.profile.index'))
+        ->assertOk()
+        ->assertSee('Swal.fire', false)
+        ->assertSee('Your profile information has been updated successfully.', false)
+        ->assertSee('value="Updated Name"', false)
+        ->assertSee('value="existing-handle"', false);
+});
+
+test('profile updates reject a username that belongs to another user', function () {
+    $user = User::factory()->create([
+        'username' => 'current-handle',
+    ]);
+    User::factory()->create([
+        'username' => 'taken-handle',
+    ]);
+
+    $this->actingAs($user)
+        ->from(route('admin.profile.index'))
+        ->post(route('admin.profile.update.info'), [
+            'name' => 'Changed Name',
+            'username' => 'taken-handle',
+            'bio' => 'This update should not be saved.',
+        ])
+        ->assertInvalid(['username' => 'already been taken']);
+
+    $this->assertDatabaseHas('users', [
+        'id' => $user->id,
+        'name' => $user->name,
+        'username' => 'current-handle',
+    ]);
+});
+
+test('guests cannot update profile information', function () {
+    $this->post(route('admin.profile.update.info'), [
+        'name' => 'Guest User',
+        'username' => 'guest-user',
+        'bio' => null,
+    ])->assertRedirect(route('login'));
 });
